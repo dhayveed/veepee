@@ -8,6 +8,7 @@ import HeroVideo from "@/sections/HeroVideo/HeroVideo";
 import Gallery from "@/sections/Gallery/Gallery";
 import Donate from "@/sections/Donate/Donate";
 import InvitationCard from "@/sections/Opening/InvitationCard";
+import WeddingDetails from "@/sections/WeddingDetails/WeddingDetails";
 
 export default function Home() {
   const [opened, setOpened] = useState(false);
@@ -15,8 +16,9 @@ export default function Home() {
   return (
     <MobileGate>
       <HeroVideo />
-      {/* <Gallery /> */}
-      {/* <Donate /> */}
+      <Gallery />
+      <WeddingDetails />
+      <Donate />
 
       <MusicButton />
 

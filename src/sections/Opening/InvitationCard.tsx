@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useAudio } from "@/lib/AudioContext";
 
 type Props = {
+
   onOpen: () => void;
 };
 
