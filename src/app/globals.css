@@ -183,13 +183,14 @@ body {
 
 .hero-video-section {
   position: relative;
-  height: 1600vh;
+  height: 1600dvh;
 }
 
 .hero-video-sticky {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;

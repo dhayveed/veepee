@@ -81,6 +81,8 @@ export default function HeroVideo() {
               muted
               playsInline
               preload="auto"
+              autoPlay
+              webkit-playsinline="true"
             />
           </div>
 
