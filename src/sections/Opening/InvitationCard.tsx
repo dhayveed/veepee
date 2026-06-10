@@ -5,14 +5,11 @@ import gsap from "gsap";
 import { useAudio } from "@/lib/AudioContext";
 
 type Props = {
-
   onOpen: () => void;
 };
 
-export default function InvitationCard({
-  onOpen,
-}: Props) {
-  const cardRef = useRef<HTMLDivElement>(null);
+export default function InvitationCard({ onOpen }: Props) {
+  const curtainRef = useRef<HTMLDivElement>(null);
   const sealRef = useRef<HTMLButtonElement>(null);
 
   const { play } = useAudio();
@@ -27,33 +24,29 @@ export default function InvitationCard({
     tl.to(sealRef.current, {
       scale: 0,
       opacity: 0,
-      duration: 0.4,
+      duration: 0.35,
+      ease: "power2.out",
     });
 
-    tl.to(cardRef.current, {
-      rotateY: -180,
-      duration: 1.5,
-      ease: "power3.inOut",
-    });
+    tl.to(
+      curtainRef.current,
+      {
+        y: "100%",
+        duration: 1.6,
+        ease: "power4.inOut",
+      },
+      "-=0.1",
+    );
   };
 
   return (
     <div className="opening-screen">
-      <div className="card-scene">
-        <div
-          ref={cardRef}
-          className="invitation-card"
-        >
-          <div className="card-front">
-            <button
-              ref={sealRef}
-              className="seal-button"
-              onClick={handleOpen}
-            >
-              Seal
-            </button>
-          </div>
-        </div>
+      <div ref={curtainRef} className="curtain">
+        <button ref={sealRef} className="seal-button" onClick={handleOpen}>
+          <img src="/images/seal.png" alt="Seal" />
+        </button>
+
+        <p className="tap-text">Tap Seal To Open</p>
       </div>
     </div>
   );
