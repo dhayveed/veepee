@@ -49,7 +49,7 @@ export default function HeroVideo() {
     if (video.readyState >= 1) {
       setup();
     } else {
-      video.addEventListener("loadedmetadata", setup, { once: true });
+      video.addEventListener("loadeddata", setup, { once: true });
     }
   }, []);
 
@@ -65,6 +65,7 @@ export default function HeroVideo() {
             ref={videoRef}
             className="hero-video"
             src="/video/hero_video.mp4"
+            autoPlay
             muted
             playsInline
             preload="auto"
