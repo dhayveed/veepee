@@ -4,8 +4,6 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const MASK_PHASE_RATIO = 0.2;
-
 export default function HeroVideo() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -20,36 +18,32 @@ export default function HeroVideo() {
 
     if (!section || !video || !mask) return;
 
-    let timeline: gsap.core.Timeline;
-
     const setup = () => {
-      timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true,
-          onUpdate(self) {
-            const duration = video.duration;
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
 
-            if (!duration) return;
+            onUpdate(self) {
+              if (!video.duration) return;
 
-            video.currentTime = duration * self.progress;
+              video.currentTime = video.duration * self.progress;
+            },
           },
-        },
-      });
+        })
 
-      // video.play().catch(() => {});
-      // video.pause();
+        .to(mask, {
+          width: "100vw",
+          height: "100vh",
+          borderRadius: 0,
+          ease: "none",
+          duration: 0.2,
+        })
 
-      timeline.to(mask, {
-        width: "100vw",
-        height: "100vh",
-        borderRadius: "0px",
-        duration: 0.2,
-      });
-
-      timeline.to({}, { duration: 0.8 });
+        .to({}, { duration: 0.8 });
     };
 
     if (video.readyState >= 1) {
@@ -57,37 +51,13 @@ export default function HeroVideo() {
     } else {
       video.addEventListener("loadedmetadata", setup, { once: true });
     }
-
-    return () => {
-      timeline?.scrollTrigger?.kill();
-      timeline?.kill();
-    };
   }, []);
 
   return (
     <section ref={sectionRef} className="hero-video-section">
       <div className="hero-video-sticky">
-        <div className="hero-video-sticky">
-          {/* LOGO */}
-          <div className="hero-logo">
-            <img src="/images/logo.png" alt="Logo" />
-          </div>
-
-          <div ref={maskRef} className="video-mask">
-            <video
-              ref={videoRef}
-              className="hero-video"
-              src="/video/hero_video.mp4"
-              muted
-              playsInline
-              preload="auto"
-              autoPlay
-              webkit-playsinline="true"
-            />
-          </div>
-
-          {/* Scroll hint */}
-          <div className="scroll-hint">Scroll to reveal</div>
+        <div className="hero-logo">
+          <img src="/images/logo.png" alt="Logo" />
         </div>
 
         <div ref={maskRef} className="video-mask">
@@ -96,10 +66,14 @@ export default function HeroVideo() {
             className="hero-video"
             src="/video/hero_video.mp4"
             muted
-            preload="auto"
             playsInline
+            preload="auto"
+            webkit-playsinline="true"
           />
         </div>
+
+        <div className="scroll-hint">Scroll to reveal</div>
+
         <div className="hero-fade" />
       </div>
     </section>

@@ -220,14 +220,14 @@ body {
 
 .hero-video-section {
   position: relative;
-  height: 1600dvh;
+  height: 1200dvh;
 }
 
 .hero-video-sticky {
   position: sticky;
   top: 0;
-  height: 100dvh;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -243,6 +243,8 @@ body {
 
   border-radius: 999px;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-video {
@@ -774,23 +776,38 @@ body {
   top: 30px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 20;
 }
 
 .hero-logo img {
-  width: 70px;
+  width: 50px;
   opacity: 0.9;
 }
 
 .scroll-hint {
   position: absolute;
-  bottom: 40px;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 12px;
   letter-spacing: 0.2em;
+  color: white;
   opacity: 0.5;
-  animation: fadePulse 2s infinite ease-in-out;
+  z-index: 20;
+  animation: hintFloat 2s infinite ease-in-out;
+}
+@keyframes hintFloat {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(8px);
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 @keyframes fadePulse {
