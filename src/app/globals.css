@@ -765,7 +765,7 @@ body {
 
 .hero-video-section {
   position: relative;
-  height: 1200vh;
+  height: 400vh;
 }
 
 .hero-video-sticky {
@@ -815,7 +815,7 @@ body {
 }
 
 .hero-logo img {
-  width: 110px;
+  width: 60px;
   height: auto;
 }
 
@@ -830,8 +830,9 @@ body {
   color: white;
 
   opacity: 0.8;
+  font-family: Roboto, Helvetica;
 
-  font-size: 0.85rem;
+  font-size: 0.69rem;
   letter-spacing: 0.15em;
 
   text-transform: uppercase;

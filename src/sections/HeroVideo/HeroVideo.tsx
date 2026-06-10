@@ -13,54 +13,33 @@ export default function HeroVideo() {
     gsap.registerPlugin(ScrollTrigger);
 
     const section = sectionRef.current;
-    const video = videoRef.current;
     const mask = maskRef.current;
+    const video = videoRef.current;
 
-    if (!section || !video || !mask) return;
+    if (!section || !mask || !video) return;
 
-    const setup = () => {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "+=1200",
-            scrub: true,
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=900",
+        scrub: true,
+      },
+    });
 
-            onUpdate(self) {
-              if (!video.duration) return;
+    tl.to(mask, {
+      width: "100vw",
+      height: "100vh",
+      borderRadius: 0,
+      ease: "power2.out",
+    });
 
-              video.currentTime = video.duration * self.progress;
-            },
-          },
-        })
+    video.play().catch(() => {});
 
-        .to(mask, {
-          width: "100vw",
-          height: "100vh",
-          borderRadius: 0,
-          ease: "power2.out",
-          duration: 1,
-        })
-
-        .call(() => {
-          video.play();
-        })
-        .to(
-          {},
-          {
-            duration: 3,
-          },
-        );
-
-      // .to({}, { duration: 0.8 });
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
     };
-
-    if (video.readyState >= 1) {
-      setup();
-    } else {
-      video.addEventListener("loadeddata", setup, { once: true });
-    }
   }, []);
 
   return (
@@ -75,11 +54,11 @@ export default function HeroVideo() {
             ref={videoRef}
             className="hero-video"
             src="/video/hero_video.mp4"
-            autoPlay
             muted
+            autoPlay
+            loop
             playsInline
             preload="auto"
-            webkit-playsinline="true"
           />
         </div>
 
