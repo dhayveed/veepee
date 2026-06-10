@@ -34,8 +34,7 @@ export default function HeroVideo() {
 
             if (!duration) return;
 
-            video.currentTime =
-              duration * self.progress;
+            video.currentTime = duration * self.progress;
           },
         },
       });
@@ -49,7 +48,6 @@ export default function HeroVideo() {
         borderRadius: "0px",
         duration: 0.2,
       });
-
 
       timeline.to({}, { duration: 0.8 });
     };
@@ -67,15 +65,30 @@ export default function HeroVideo() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="hero-video-section"
-    >
+    <section ref={sectionRef} className="hero-video-section">
       <div className="hero-video-sticky">
-        <div
-          ref={maskRef}
-          className="video-mask"
-        >
+        <div className="hero-video-sticky">
+          {/* LOGO */}
+          <div className="hero-logo">
+            <img src="/images/logo.png" alt="Logo" />
+          </div>
+
+          <div ref={maskRef} className="video-mask">
+            <video
+              ref={videoRef}
+              className="hero-video"
+              src="/video/hero_video.mp4"
+              muted
+              playsInline
+              preload="auto"
+            />
+          </div>
+
+          {/* Scroll hint */}
+          <div className="scroll-hint">Scroll to reveal</div>
+        </div>
+
+        <div ref={maskRef} className="video-mask">
           <video
             ref={videoRef}
             className="hero-video"

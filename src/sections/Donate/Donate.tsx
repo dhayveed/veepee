@@ -1,19 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-//@ts-ignore
-// import PaystackPop from "@paystack/inline-js";
-
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { fireConfetti } from "@/lib/confetti";
+
 const AMOUNTS = [3000, 5000, 10000, 30000, 50000];
+
+type Scene = "intro" | "reveal" | "form" | "done";
 
 export default function Donate() {
   const sectionRef = useRef<HTMLElement>(null);
   const revealRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useState(false);
+  const [scene, setScene] = useState<Scene>("intro");
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -22,55 +24,41 @@ export default function Donate() {
   const [customAmount, setCustomAmount] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [done, setDone] = useState(false);
 
-  const publicKey =
-    process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "";
+  const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "";
 
-  const getAmount = () => {
-    if (customAmount) return Number(customAmount);
-    return amount || 0;
-  };
+  const finalAmount = customAmount ? Number(customAmount) : amount || 0;
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        revealRef.current,
-        { opacity: 0, y: 40, filter: "blur(10px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1.4,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
-        }
-      );
-    }, sectionRef);
+    if (!revealRef.current) return;
 
-    return () => ctx.revert();
+    gsap.fromTo(
+      revealRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      },
+    );
   }, []);
 
-  const handlePay = async () => {
-    const finalAmount = getAmount();
-
+  const handlePay = () => {
     if (!name || !email || !finalAmount) {
-      alert("Please complete the form");
+      alert("Please complete all required fields");
       return;
     }
 
     setLoading(true);
 
-    const PaystackModule = await import("@paystack/inline-js");
-    const PaystackPop = (PaystackModule as any).default;
-    const paystack = new PaystackPop();
-
-    paystack.newTransaction({
+    const handler = window.PaystackPop.setup({
       key: publicKey,
       email,
       amount: finalAmount * 100,
@@ -90,67 +78,73 @@ export default function Donate() {
         ],
       },
 
-      onSuccess: () => {
+      callback: () => {
         setLoading(false);
-        setDone(true);
+        setScene("done");
+
+        fireConfetti();
       },
 
-      onCancel: () => {
+      onClose: () => {
         setLoading(false);
       },
     });
+
+    handler.openIframe();
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="donate-cinematic"
-    >
+    <section ref={sectionRef} className="donate-cinematic">
       <div className="donate-glow" />
 
       <div ref={revealRef} className="donate-reveal">
-
-        {!done && (
-          <>
-            <h2 className="donate-title">
-              A Moment Of Giving
-            </h2>
+        {/* INTRO */}
+        {scene === "intro" && (
+          <div className="donate-intro">
+            <h2 className="donate-title">A Moment Of Giving</h2>
 
             <p className="donate-subtitle">
               Your presence is already our greatest gift.
-              <br />
-              If you wish to contribute, you may do so here.
             </p>
 
-            {!open && (
-              <button
-                className="donate-intro-btn"
-                onClick={() => setOpen(true)}
-              >
-                Continue
-              </button>
-            )}
-          </>
-        )}
-
-        {done && (
-          <div className="donate-thankyou">
-            <h3>Thank You ♥</h3>
-            <p>Your love and support mean everything.</p>
+            <button
+              className="donate-intro-btn"
+              onClick={() => setScene("reveal")}
+            >
+              Yes, I want to
+            </button>
           </div>
         )}
 
-        {open && !done && (
-          <div className="donate-form cinematic">
+        {/* REVEAL */}
+        {scene === "reveal" && (
+          <div className="donate-reveal-stage">
+            <h2 className="fade-in">With Gratitude</h2>
 
+            <p className="fade-in delay">
+              If you wish to support us in this journey, we are truly thankful.
+            </p>
+
+            <button
+              className="donate-intro-btn"
+              onClick={() => setScene("form")}
+            >
+              Continue
+            </button>
+          </div>
+        )}
+
+        {/* FORM */}
+        {scene === "form" && (
+          <div className="donate-form cinematic">
             <input
-              placeholder="Full Name"
+              placeholder="Full Name *"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
 
             <input
-              placeholder="Email"
+              placeholder="Email *"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -165,11 +159,7 @@ export default function Donate() {
               {AMOUNTS.map((a) => (
                 <button
                   key={a}
-                  className={
-                    amount === a
-                      ? "amount active"
-                      : "amount"
-                  }
+                  className={amount === a ? "amount active" : "amount"}
                   onClick={() => {
                     setAmount(a);
                     setCustomAmount("");
@@ -194,14 +184,25 @@ export default function Donate() {
               onClick={handlePay}
               disabled={loading}
             >
-              {loading
-                ? "Opening Payment..."
-                : "Make Donation"}
+              {loading ? "Opening Payment..." : "Make Donation"}
             </button>
-
           </div>
         )}
 
+        {/* DONE */}
+        {scene === "done" && (
+          <div className="donate-thankyou">
+            <div className="thankyou-inner">
+              <h3>Thank You 🥰</h3>
+
+              <p>Your generosity means the world to us.🥳</p>
+
+              <span className="thankyou-sub">
+                With love & gratitudegratitude😊
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,1 +1,3 @@
-declare module "@paystack/inline-js";
+interface Window {
+    PaystackPop: any;
+  }

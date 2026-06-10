@@ -189,15 +189,14 @@ body {
 .hero-video-sticky {
   position: sticky;
   top: 0;
-
-  width: 100%;
   height: 100vh;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   background: black;
+  overflow: hidden;
+
+  position: sticky;
 }
 
 .video-mask {
@@ -689,5 +688,125 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.donate-reveal-stage {
+  text-align: center;
+  max-width: 420px;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 1.2s ease forwards;
+}
+
+.delay {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.donate-cinematic {
+  animation: darkPulse 2s ease;
+}
+
+@keyframes darkPulse {
+  from {
+    filter: brightness(0.7);
+  }
+  to {
+    filter: brightness(1);
+  }
+}
+
+.hero-logo {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.hero-logo img {
+  width: 70px;
+  opacity: 0.9;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+  animation: fadePulse 2s infinite ease-in-out;
+}
+
+@keyframes fadePulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+.donate-thankyou {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+
+.thankyou-inner h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.thankyou-sub {
+  display: block;
+  margin-top: 10px;
+  opacity: 0.6;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  animation: floatText 3s ease-in-out infinite;
+}
+
+@keyframes floatText {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
