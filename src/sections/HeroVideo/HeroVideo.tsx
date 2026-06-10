@@ -24,7 +24,7 @@ export default function HeroVideo() {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "bottom bottom",
+            end: "+=1200",
             scrub: true,
 
             onUpdate(self) {
@@ -39,11 +39,21 @@ export default function HeroVideo() {
           width: "100vw",
           height: "100vh",
           borderRadius: 0,
-          ease: "none",
-          duration: 0.2,
+          ease: "power2.out",
+          duration: 1,
         })
 
-        .to({}, { duration: 0.8 });
+        .call(() => {
+          video.play();
+        })
+        .to(
+          {},
+          {
+            duration: 3,
+          },
+        );
+
+      // .to({}, { duration: 0.8 });
     };
 
     if (video.readyState >= 1) {

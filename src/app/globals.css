@@ -549,10 +549,26 @@ body {
   margin-top: 2rem;
 }
 
-.donate-form input {
+/* .donate-form input {
   padding: 0.9rem 1rem;
 
   border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  background: rgba(255, 255, 255, 0.03);
+
+  color: white;
+} */
+
+.donate-form input {
+  width: 100%;
+
+  padding: 1.2rem 1.25rem;
+
+  font-size: 1rem;
+
+  border-radius: 18px;
 
   border: 1px solid rgba(255, 255, 255, 0.1);
 
@@ -565,21 +581,19 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .amount {
-  padding: 0.8rem;
+  padding: 1rem;
 
-  border-radius: 999px;
+  min-height: 56px;
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
 
-  background: transparent;
+  font-size: 0.95rem;
 
-  color: white;
-
-  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .amount.active {
@@ -590,17 +604,14 @@ body {
 .donate-pay {
   margin-top: 1rem;
 
-  padding: 1rem;
+  width: 100%;
+
+  padding: 1.2rem;
 
   border-radius: 999px;
 
-  border: none;
-
-  background: #d6b8b8;
-
-  color: #111;
-
-  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .donate-thankyou {
@@ -647,7 +658,11 @@ body {
   position: relative;
   z-index: 2;
 
-  max-width: 420px;
+  width: 100%;
+  max-width: 680px;
+
+  margin: 0 auto;
+
   text-align: center;
 }
 
@@ -676,11 +691,23 @@ body {
 .donate-form.cinematic {
   margin-top: 2rem;
 
+  width: 100%;
+
+  padding: 2rem;
+
+  border-radius: 32px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
   display: flex;
   flex-direction: column;
 
   gap: 1rem;
-
   animation: fadeIn 0.6s ease forwards;
 }
 
