@@ -186,6 +186,12 @@ export default function Donate() {
             >
               {loading ? "Opening Payment..." : "Make Donation"}
             </button>
+
+            <div className="paystack-trust">
+              <img src="/images/paystack_icon.svg" alt="Secured by Paystack" />
+
+              <span>Payments are securely processed by Paystack</span>
+            </div>
           </div>
         )}
 

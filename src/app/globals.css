@@ -549,18 +549,6 @@ body {
   margin-top: 2rem;
 }
 
-/* .donate-form input {
-  padding: 0.9rem 1rem;
-
-  border-radius: 12px;
-
-  border: 1px solid rgba(255, 255, 255, 0.1);
-
-  background: rgba(255, 255, 255, 0.03);
-
-  color: white;
-} */
-
 .donate-form input {
   width: 100%;
 
@@ -592,6 +580,8 @@ body {
   border-radius: 16px;
 
   font-size: 0.95rem;
+  color: #000;
+  font-family: Helvetica;
 
   transition: all 0.3s ease;
 }
@@ -599,6 +589,7 @@ body {
 .amount.active {
   background: rgba(214, 184, 184, 0.2);
   border-color: rgba(214, 184, 184, 0.5);
+  color: rgb(207, 204, 204);
 }
 
 .donate-pay {
@@ -611,6 +602,8 @@ body {
   border-radius: 999px;
 
   font-size: 1rem;
+  color: #000;
+  font-family: Helvetica;
   font-weight: 600;
 }
 
@@ -910,4 +903,40 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.paystack-trust {
+  margin-top: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  opacity: 0.75;
+
+  font-size: 0.85rem;
+  font-family: Helvetica;
+  font-weight: 100;
+  text-align: center;
+}
+
+.paystack-trust img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Remove iOS default styles */
+
+input,
+button,
+select,
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+
+  border-radius: 0;
+  font-family: inherit;
+  color: inherit;
 }
